@@ -1,0 +1,41 @@
+version: '2.0'
+
+name: docker-buildpack
+
+description: Buildpack to install Docker and deploy Docker apps
+
+run:
+
+  cmd: bash install.docker.sh
+
+  
+
+env:
+
+  DOCKER_VERSION: 'latest'
+
+files:
+
+  - source: install.docker.sh
+
+    target: /build/
+
+dependencies:
+
+  - name: docker
+
+    url: https://download.docker.com/linux/static/stable/x86_64/docker-$DOCKER_VERSION.tgz
+
+    env:
+
+      DOCKER_VERSION: $DOCKER_VERSION
+
+    after:
+
+      - install.docker.sh
+
+  
+
+deployment:
+
+  cmd: ["bash", "start.sh"]
